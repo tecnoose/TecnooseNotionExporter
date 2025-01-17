@@ -5,7 +5,7 @@ class Config:
         api_version: str = "v1"
         api_key: str = "API_KEY"
         api_timeout: int = 30  # seconds
-        database_id: str = "78a60b28a70f4411968f548597d8fc1e"
+        database_id: str = "DATABASE_ID"
 
         @staticmethod
         def get_url():
@@ -24,7 +24,7 @@ class Config:
             return Config.Notion.database_id
 
     class Export:
-        export_path: str = "/Users/paolo/Blogs/Tecnoose/content/posts"
+        export_path: str = "LOCAL_PATH"
 
         @staticmethod
         def get_export_path():
