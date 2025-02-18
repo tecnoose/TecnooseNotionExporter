@@ -1,4 +1,4 @@
-import logging
+from tecnoose_notion_exporter.utils.import_logging import logger as logging
 import requests
 from tecnoose_notion_exporter.config.global_configuration import Config
 
@@ -6,23 +6,15 @@ class NotionService:
     """The current class aims to export posts from Notion when available."""
     
     def __init__(self):
-        self.api_key = Config.Notion.api_key
-        self.api_url = Config.Notion.api_url
-        self.api_version = Config.Notion.api_version
-        self.api_timeout = Config.Notion.api_timeout
+        self.api_key = Config.Notion.get_api_key()
+        self.api_url = Config.Notion.get_url()
+        self.api_version = Config.Notion.get_api_version()
+        self.api_timeout = Config.Notion.get_timeout()
         self.request_header = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Notion-Version": self.api_version,
+            "Authorization": f"Bearer {Config.Notion.get_api_key()}",
+            "Notion-Version": Config.Notion.get_notion_version(),
             "Content-Type": "application/json",
         }
-
-    def print_parameters(self):
-        """Prints the current configuration parameters."""
-        logging.info(f"apiUrl={self.api_url}")
-        logging.info(f"apiKey={self.api_key}")
-        logging.info(f"apiVersion={self.api_version}")
-        logging.info(f"apiTimeout={self.api_timeout}")
-        logging.info(f"header authorization={self.request_header}")
 
     def query_posts(self, database_id: str) -> dict:
         """
@@ -39,6 +31,7 @@ class NotionService:
             return None
 
         url = f"{self.api_url}/{self.api_version}/databases/{database_id}/query"
+        logging.info(f"query post: {url}")
         payload = {
             "filter": {
                 "property": "Tags",
@@ -98,7 +91,7 @@ class NotionService:
             "properties": {
                 "Tags": {
                     "multi_select": [
-                        {"name": "Posted"}
+                        {"name": "Exported"}
                     ]
                 }
             }

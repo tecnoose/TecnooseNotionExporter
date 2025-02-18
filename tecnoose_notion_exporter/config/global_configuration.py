@@ -16,6 +16,7 @@ class Config:
         api_url: str = os.getenv('NOTION_API_URL')
         api_version: str = os.getenv('NOTION_API_VERSION')
         api_key: str = os.getenv('NOTION_API_KEY')
+        notion_version: str = os.getenv('NOTION_VERSION')
         api_timeout: int = int(os.getenv('NOTION_API_TIMEOUT', 30))
         database_id: str = os.getenv('NOTION_DATABASE_ID')
 
@@ -36,6 +37,15 @@ class Config:
             :return: str representing the Notion API key
             """
             return Config.Notion.api_key
+        
+        @staticmethod
+        def get_api_version() -> str:
+            """
+            Get the Notion API version.
+            
+            :return: str representing the Notion API version
+            """
+            return Config.Notion.api_version
 
         @staticmethod
         def get_timeout() -> int:
@@ -54,6 +64,15 @@ class Config:
             :return: str representing the Notion database ID
             """
             return Config.Notion.database_id
+        
+        @staticmethod
+        def get_notion_version() -> str:
+            """
+            Get the Notion Version.
+            
+            :return: str representing the Notion Version
+            """
+            return Config.Notion.notion_version
 
     class Export:
         """
@@ -72,8 +91,9 @@ class Config:
         
     def ToString():
         logging.info(f"Notion API URL: {Config.Notion.get_url()}")
-        logging.info(f"Notion API Version: {Config.Notion.api_version}")
+        logging.info(f"Notion API Version: {Config.Notion.get_api_version()}")
         logging.info(f"Notion API Key: {Config.Notion.get_api_key()}")
         logging.info(f"Notion API Timeout: {Config.Notion.get_timeout()}")
         logging.info(f"Notion Database ID: {Config.Notion.get_database_id()}")
+        logging.info(f"Notion Version: {Config.Notion.get_notion_version()}")
         logging.info(f"Export Path: {Config.Export.get_export_path()}")

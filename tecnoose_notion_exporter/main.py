@@ -4,6 +4,8 @@ from tecnoose_notion_exporter.services.markdown_service import MarkdownService
 from tecnoose_notion_exporter.services.file_service import FileService
 from tecnoose_notion_exporter.config.global_configuration import Config
 
+
+
 def main():
     """
     Main function to query posts from Notion, convert them to Markdown,
@@ -50,7 +52,7 @@ def main():
 
             post_folder_name = title.replace(' ', '-')
             file_service.delete_folder(post_folder_name)
-            logging.error(f"An error occurred: {e}", exc_info=True)
+            file_service.create_post_root_folder(post_folder_name)
             file_service.create_post_images_folder(post_folder_name)
 
             markdown_content = markdown_service.convert_to_markdown(page_blocks.get("results"), post_folder_name)
